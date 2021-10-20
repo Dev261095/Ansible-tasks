@@ -1,0 +1,20 @@
+---
+- name: Update web servers
+  hosts: all
+  become: yes
+
+  tasks:
+  - name: Ensure installed Appache httpd
+    yum:
+      name: httpd
+      state: installed
+  - name: Ensure started appache httpd
+    service:
+      name: httpd
+      state: started
+  - name: Ensure enable appache httpd
+    service:
+      name: httpd
+      enabled: yes
+...
+

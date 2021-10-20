@@ -1,0 +1,16 @@
+---
+- name: Update web servers
+  hosts: app
+  become: yes
+
+  tasks:
+  - name: Ensure installed git
+    yum:
+      name: git
+      state: installed
+  - name: Ensure repo myntra app
+    git:
+      repo: https://github.com/ravi2krishna/ecomm.git
+      dest: /var/www/html  
+...
+
