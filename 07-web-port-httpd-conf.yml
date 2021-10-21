@@ -1,0 +1,22 @@
+---
+- name: Update web servers
+  hosts: app
+  become: yes
+
+  tasks:
+  - name: SELinux Permissive
+    selinux:
+      policy: targeted
+      state: permissive
+  - name: Copy Config File
+    copy:
+      src: httpd.conf
+      dest: /etc/httpd/conf/httpd.conf
+
+  - name: restart Apache
+    service:
+      name: httpd
+      state: restarted
+  
+...
+
