@@ -1,0 +1,64 @@
+---
+- name: Update n3 servers
+  hosts: n3
+  become: yes
+
+  tasks:
+  - name: Ensure installed Appache httpd
+    yum:
+      name: httpd
+      state: installed
+  - name: Ensure started appache httpd
+    service:
+      name: httpd
+      state: started
+  - name: Ensure enable appache httpd
+    service:
+      name: httpd
+      enabled: yes
+  - name: Ensure installed git
+    yum:
+      name: git
+      state: installed
+  - name: Ensure creating ecomm file directory
+    file:
+      path: /home/centos/ecomm
+      state: directory
+  - name: Ensure creating food file directory
+    file:
+      path: /home/centos/food
+      state: directory
+  - name: Ensure repo myntra app
+    git:
+      repo: https://github.com/ravi2krishna/ecomm.git
+      dest: /home/centos
+  - name: Ensure repo food app
+    git:
+      repo: https://github.com/ravi2krishna/food.git
+      dest: /home/centos
+  - name: Ensure copy myntra app to httpd
+    copy:
+      src: /home/centos/ecomm
+      dest: /var/www/html
+      remote_src: yes
+  - name: Ensure copy food app to httpd
+    copy:
+      src: /home/centos/food
+      dest: /var/www/html
+      remote_src: yes  
+  - name: SELinux Permissive
+    selinux:
+      policy: targeted
+      state: permissive
+  - name: Copy Config File
+    copy:
+      src: httpd.conf
+      dest: /etc/httpd/conf/httpd.conf
+
+  - name: restart Apache
+    service:
+      name: httpd
+      state: restarted
+  
+...
+
