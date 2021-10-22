@@ -1,0 +1,25 @@
+---
+- name: Update n3 servers
+  hosts: n3
+  become: yes
+
+  tasks:  
+  - name: Copy Config File
+    copy:
+      src: httpd.conf
+      dest: /etc/httpd/conf/httpd.conf
+  - name: Ensure copy static.html to httpd
+    copy:
+      src: static.html
+      dest: /var/www/html/food/static.html
+
+  - name: SELinux Permissive
+    selinux:
+      policy: targeted
+      state: permissive
+  - name: restart Apache
+    service:
+      name: httpd
+      state: restarted
+...
+

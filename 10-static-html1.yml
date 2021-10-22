@@ -1,0 +1,13 @@
+---
+- name: Update n3 servers
+  hosts: n1
+  become: yes
+  vars:
+    my_user: node
+  tasks:  
+  - name: Copying static file
+    template:
+      src: dynamic.j2
+      dest: /var/www/html/ecomm/dynamic.html
+...
+

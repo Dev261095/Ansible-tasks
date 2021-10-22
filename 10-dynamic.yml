@@ -1,0 +1,12 @@
+---
+- name: Update n3 servers
+  hosts: n3
+  become: yes
+
+  tasks:  
+  - name: Copying static file
+    copy:
+      src: static.html
+      dest: /var/www/html/ecomm/static.html
+...
+
